@@ -1,0 +1,45 @@
+{% extends 'task/base.html' %}
+
+{% block content %}
+<div class="m-3 table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align:center; width:3%" scope="col">#</th>
+                <th style="text-align:center" scope="col">Title</th>
+                <th style="text-align:center" scope="col">Content</th>
+                <th style="text-align:center; width:8%" scope="col">Date</th>
+                <th style="text-align:center; width:8%" scope="col">Status</th>
+                <th style="text-align:center; width:15%" scope="col text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.task_content }}</td>
+                <td style="text-align:center">{{ todo.created_date|date:"d-m-y" }}</td>
+                {% if todo.complete %}
+                    <td style="text-align:center">Completed</td>
+                {% else %}
+                    <td style="text-align:center">Pending</td>
+                {% endif %}
+
+                <td style="text-align:center">
+                {% if todo.complete %}
+                    <button class="m-1 btn btn-outline-secondary btn-sm">Complete</button>
+                    <button class="m-1 btn btn-outline-secondary btn-sm"><i class="fa fa-edit"></i></button>
+                    <a class="m-1 btn btn-outline-danger btn-sm" href="{% url 'delete' todo.id %}"><i class="fa fa-trash"></i></a>
+                {% else %}
+                    <a class="m-1 btn btn-info btn-sm" href="{% url 'complete' todo.id %}">Complete</a>
+                    <a class="m-1 btn btn-primary btn-sm" href="{% url 'edit' todo.id %}"><i class="fa fa-edit"></i></a>
+                    <a name="delete" class="m-1 btn btn-outline-danger btn-sm" href="{% url 'delete' todo.id %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
